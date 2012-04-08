@@ -54,13 +54,12 @@ var RotatingCube = (function($) {
 			this.$faces.each($.proxy(function(i, element) {
 				this.$$faces.push( $(element) );
 			},this));
-			this.size = this.$faces.outerWidth();			
+			this.size = this.$faces.outerWidth();
+			this.$container.css('width', this.size + 'px');
+			this.$container.css('height', this.size + 'px');
 		},
 		_setupCss: function() {
-			var d = this.options.duration;
-			if (typeof d == 'number') {
-				this.options.duration = [d,d,d,d,d,d];
-			}
+			this.setDuration(this.options.duration);
 			this.$container
 				.cubePrefixedCss('perspective', (this.size * this.options.perspectiveFactor) + 'px')
 				.css({
@@ -136,6 +135,23 @@ var RotatingCube = (function($) {
 			this.showingFace = this._next.toFaceNumber;
 			this.trigger('StartRotate', [this._next]);
 			this._next = undefined;
+		},
+		setDuration: function(d) {
+			if (typeof d == 'number' || typeof d == 'string') {
+				this.options.duration = [d,d,d,d,d,d];
+			}		
+			else {
+				this.options.duration = d;
+			}
+			return this;
+		},
+		setSequence: function(s) {
+			this.options.sequence = s;
+			return this;
+		},
+		setTransitionTimingFunction: function(f) {
+			this.options.transitionTimingFunction = f;
+			return this;
 		}
 	});
 
@@ -203,7 +219,7 @@ var RotatingCube = (function($) {
 		return this.css(prefixedProps);
 	}
 	$.fn.rotatingCube = function(options) {
-		var args = slice.call(options,1);
+		var args = slice.call(arguments,1);
 		return this.each(function() {			
 			var $el = $(this);
 			var cube = $el.data('RotatingCube');

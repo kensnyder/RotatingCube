@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>RotatingCube Example</title>
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+	<script src="../RotatingCube.js"></script>
+	<style type="text/css">
+		.cube-face {
+			/* the minimum css required: height and width must be set on each face */
+			width: 300px;
+			height: 300px;
+			/* style our cube a bit */
+			background-color: rgba(200,200,230,0.9);
+			border: 2px solid #000;
+			text-align: center;
+			font: bold 72px/300px Arial, Helvetica, sans-serif;
+			list-style-type: none;
+			margin: 0;
+			padding: 0;
+		}
+		.cube-faces {
+			margin: 0;
+			padding: 0;
+		}
+		.cube {
+			margin: 50px;
+		}
+		/* put our controls on the right */
+		.controls {
+			float: right;
+			width: 400px;
+		}
+	</style>
+</head>
+<body>
+	<!-- Some controls for our demo -->
+	<div class="controls">
+		<strong>Options</strong><br />
+		Duration: <input type="text" id="duration" value="1.5" size="4" /><br />
+		Sequence: <input type="text" id="sequence" value="1,2,3,4,5,6" size="12" /><br />
+		Transition: <select id="transition">
+			<option value="ease">ease</option>
+			<option value="linear">linear</option>
+			<option value="ease-in">ease-in</option>
+			<option value="ease-out">ease-out</option>
+			<option value="ease-in-out" selected="selected">ease-in-out</option>
+		</select>
+		<br />
+		<strong>Controls</strong><br />
+		<input type="button" id="next" value="cube.rotate()" /><br />
+		<input type="button" id="next1" value="cube.rotate(1)" /><br />
+		<input type="button" id="next2" value="cube.rotate(2)" /><br />
+		<input type="button" id="next3" value="cube.rotate(3)" /><br />
+		<input type="button" id="next4" value="cube.rotate(4)" /><br />
+		<input type="button" id="next5" value="cube.rotate(5)" /><br />
+		<input type="button" id="next6" value="cube.rotate(6)" /><br />
+	</div>
+	<!-- The minimum html: outer element, inner element, and 6 faces -->
+	<div class="cube">
+		<ul class="cube-faces">
+			<li class="cube-face">1</li>
+			<li class="cube-face">2</li>
+			<li class="cube-face">3</li>
+			<li class="cube-face">4</li>
+			<li class="cube-face">5</li>
+			<li class="cube-face">6</li>
+		</ul>
+	</div>
+	<script>
+		// initialize our cube with default options
+		var cube = new RotatingCube('.cube');
+		
+		// Make our controls do stuff
+		$('[id^=next]').click(function() {
+			var toFace = this.id.replace(/\D/g, '');
+			cube.rotate(toFace);
+		});
+		$('#duration').bind('blur change', function() {
+			cube.setDuration(this.value);
+		}).trigger('blur');
+		$('#sequence').bind('blur change', function() {
+			cube.setSequence(this.value.split(','));
+		}).trigger('blur');
+		$('#transition').bind('change', function() {
+			cube.setTransitionTimingFunction($(this).val());
+		}).trigger('blur');
+	</script>
+</body>
+</html>
