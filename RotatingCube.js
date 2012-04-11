@@ -15,6 +15,9 @@ var RotatingCube = (function($) {
 		sequence: [1, 2, 3, 4, 5, 6],
 		duration: 2.5
 		/*
+		You can subscribe to the following events on instantiation
+		Or later using this pattern: `cubeInstance.bind('BeforeRotate', callback)`
+
 		onBeforeRotate: $.noop,
 		onStartRotate: $.noop,
 		onEndRotate: $.noop
